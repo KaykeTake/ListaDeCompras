@@ -1,17 +1,51 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <ListaCompras :searchbtt="searchbtt" :pesquisa="pesquisa" :pesquisatag="pesquisatag" @recebendo="apagando"
+      @buttonoff="buttonoff" @apagandotag="apagandotag"/>
+
+    <PesquisandoLista ref="pesquisando" @recebendopesquisa="pesquisarlista" @recivebutton="searchbutton" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+import ListaCompras from './components/ListaCompras.vue';
+import PesquisandoLista from './components/Pesquisando.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    ListaCompras,
+    PesquisandoLista
+  },
+  data() {
+    return {
+      pesquisatag: [],
+      pesquisa: '',
+      searchbtt: false,
+    }
+  },
+  methods: {
+    apagando() {
+      this.$refs.pesquisando.limpando()
+    },
+    buttonoff() {
+      this.searchbtt = false
+    },
+    pesquisarlista(data) {
+      if (typeof data === 'string') {
+        this.pesquisa = data
+      }
+      else if (Array.isArray(data)) {
+        this.pesquisatag = data
+      }
+    },
+    searchbutton() {
+      this.searchbtt = true
+    },
+    apagandotag(){
+      this.$refs.pesquisando.limpandotag()
+    }
   }
 }
 </script>
@@ -22,7 +56,6 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 50px;
 }
 </style>
