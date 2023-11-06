@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <ListaCompras :searchbtt="searchbtt" :pesquisa="pesquisa" :pesquisatag="pesquisatag" @recebendo="apagando"
-      @buttonoff="buttonoff" @apagandotag="apagandotag"/>
-
+    @buttonoff="buttonoff" @apagandotag="apagandotag"/>
     <PesquisandoLista ref="pesquisando" @recebendopesquisa="pesquisarlista" @recivebutton="searchbutton" />
+    
   </div>
 </template>
 
@@ -55,7 +55,8 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
 }
 </style>

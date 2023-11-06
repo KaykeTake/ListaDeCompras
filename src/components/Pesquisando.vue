@@ -1,6 +1,5 @@
 <template>
     <div class="container">
-        <br/>
         <CategoriaComponent ref="categoria" :botaoaba="btag" @receber="tag"/>
         <BotaoComponent  name="Tags" @receber="botaotag"/>
         <BotaoComponent name="Search" @receber="search"/>

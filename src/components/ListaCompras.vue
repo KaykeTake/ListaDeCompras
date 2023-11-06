@@ -6,13 +6,19 @@
         <BotaoComponent name="Add" @receber="botaoadd" />
         <CategoriaComponent :botaoaba="btag" :clicks="badd" @receber="addlisttag" />
         <BarraPesquisa :clicks="badd" @receber="addlistname" />
-        <div class="box">
-            <!-- v-for percorre o array list e exibir os valores de name e tag -->
-            <div v-for="(item, index) in list" :key="index" :class="{ pesquisa: highlight(item) }">
-                <a href="#" @click.prevent="excluir(index)">excluir</a> 
-                <p> {{ item.name }}</p>
-                <div v-for="(tag, index) in item.tag" :key="index"> <!-- exibi as tags de cada objeto -->
-                    <p>{{ tag }}</p>
+        <div class="pacote">
+            <div class="boxx">
+                <!-- v-for percorre o array list e exibir os valores de name e tag -->
+                <div v-for="(item, index) in list" :key="index" class="box" :class="{ pesquisa: highlight(item) }">
+                    <a href="#" @click.prevent="excluir(index)">excluir</a>
+                    <p> {{ item.name }}</p>
+                    <div class="atags">
+                        <template v-for="(tag, tagindex) in item.tag"> <!-- exibi as tags de cada objeto -->
+                            <div class="tags" :key="tagindex">
+                                <p>{{ tag }}</p>
+                            </div>
+                        </template>
+                    </div>
                 </div>
             </div>
         </div>
@@ -35,7 +41,7 @@ export default {
         searchbtt: Boolean,
         pesquisatag: Array
     },
-    mounted(){
+    mounted() {
         this.carregamento()
     },
     watch: {
@@ -71,12 +77,12 @@ export default {
         }
     },
     methods: {
-        excluir(index){
-            this.listbase.splice(index,1)
+        excluir(index) {
+            this.listbase.splice(index, 1)
             localStorage.setItem('list', JSON.stringify(this.listbase))
             this.list = (structuredClone(this.listbase))
         },
-        carregamento(){
+        carregamento() {
             this.listbase = JSON.parse(localStorage.getItem('list')) || [];
             this.list = structuredClone(this.listbase)
         },
@@ -132,12 +138,7 @@ export default {
         },
         // executa uma logica onde o primeiro click torna a varivel true e o segundo em false e envia para  o componente Categoria, fazendo a aba tags aparacer e sumir
         botaotag() {
-            this.btag = true;
-            this.count++;
-            if (this.count >= 2) {
-                this.btag = false;
-                this.count = 0;
-            }
+            this.btag = !this.btag;
         },
         botaoadd() {
             this.badd = true
@@ -146,13 +147,28 @@ export default {
 }
 </script>
 <style scoped>
+.pacote {
+    display: flex;
+    justify-content: space-evenly;
+}
+
 .box {
     display: flex;
     justify-content: space-evenly;
 }
 
+.atags {
+    display: grid;
+    grid-auto-rows: auto;
+    /* Define a altura das linhas automaticamente com base no conteúdo */
+    grid-auto-flow: row;
+    /* Especifica que as tags devem ser empilhadas verticalmente */
+    justify-content: end;
+    /* Alinha o conteúdo na parte inferior */
+
+}
+
 .pesquisa {
     background-color: blue;
     color: white;
-}
-</style>
+}</style>
